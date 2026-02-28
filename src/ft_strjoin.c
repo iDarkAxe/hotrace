@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 16:58:40 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 13:51:33 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/02/28 14:42:27 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,16 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*pointer;
-	size_t	len;
 	size_t	s1_len;
-	size_t	index;
+	size_t	s2_len;
 
-	index = 0;
 	s1_len = ft_strlen(s1);
-	len = s1_len + ft_strlen(s2);
-	pointer = malloc(sizeof(char) * (len + 1));
+	s2_len = ft_strlen(s2);
+	pointer = malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (pointer == NULL)
 		return (NULL);
-	while (s1[index] != '\0')
-	{
-		pointer[index] = s1[index];
-		index++;
-	}
-	index = 0;
-	while (s2[index] != '\0' && index < len - s1_len)
-	{
-		pointer[index + s1_len] = s2[index];
-		index++;
-	}
-	pointer[index + s1_len] = '\0';
+	ft_memcpy(pointer, s1, s1_len);
+	ft_memcpy(&pointer[s1_len], s2, s2_len);
+	pointer[s1_len + s2_len] = '\0';
 	return (pointer);
 }

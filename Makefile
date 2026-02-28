@@ -44,6 +44,7 @@ SRC = \
 	ft_strchr.c \
 	ft_strlcpy.c \
 	ft_strlen.c \
+	ft_memcpy.c \
 
 LIBS = \
 
