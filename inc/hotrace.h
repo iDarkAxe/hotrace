@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:47:28 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 16:31:16 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/02/28 18:53:50 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,33 @@
 // strerror
 // The compiler directive: __asm__
 
-#include <stddef.h>
+#include "garbage.h"
+#include <stdbool.h>
 
-typedef struct s_hash	t_hash;
+typedef struct s_hash		t_hash;
+typedef struct s_element	t_element;
 
-struct					s_hash
+struct						s_hash
 {
-	char				**data;
-	size_t				data_size;
-	size_t				n_elements;
+	t_element				*data;
+	t_garbage				*garbage;
+	size_t					data_size;
+	size_t					n_elements;
 };
 
-t_hash					*create_hashmap(size_t starting_size);
-void					free_hashmap(t_hash *hashmap);
-size_t					hash(const char *str);
-int						insert(t_hash *hashmap, const char *key,
-							const char *value);
-char					*get(t_hash *hashmap, const char *key);
+struct						s_element
+{
+	char					*key;
+	char					*value;
+};
 
-enum					e_hash_strategy
+t_hash						*create_hashmap(t_hash *hashmap);
+void						free_hashmap(t_hash *hashmap);
+size_t						hash(const char *str);
+bool						insert(t_hash *hashmap, char *key, char *value);
+char						*get(t_hash *hashmap, const char *key);
+
+enum						e_hash_strategy
 {
 	FNV1,
 	FNV1A,
@@ -44,6 +52,6 @@ enum					e_hash_strategy
 	END_VAL = -1
 };
 
-size_t					hash(const char *str);
-void					change_hash_strategy(enum e_hash_strategy value);
-enum e_hash_strategy	find_hash_strategy(void);
+size_t						hash(const char *str);
+void						change_hash_strategy(enum e_hash_strategy value);
+enum e_hash_strategy		find_hash_strategy(void);

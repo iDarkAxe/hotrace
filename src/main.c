@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:49:07 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 14:12:40 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/02/28 18:55:55 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ void	fill_hashmap(t_hash *hashmap);
  */
 int	main(void)
 {
-	t_hash	*hashmap;
+	t_hash	hashmap;
 
-	hashmap = create_hashmap(4);
-	if (!hashmap)
-		return (1);
-	fill_hashmap(hashmap);
-	read_hashmap(hashmap);
-	free_hashmap(hashmap);
+	if (create_hashmap(&hashmap) == NULL)
+		return (EXIT_FAILURE);
+	fill_hashmap(&hashmap);
+	read_hashmap(&hashmap);
+	free_hashmap(&hashmap);
 	return (0);
 }
 
@@ -56,10 +55,10 @@ void	fill_hashmap(t_hash *hashmap)
 	while (1)
 	{
 		key = get_next_line(0);
-		if (!key || key[0] == '\0')
+		if (!key || key[0] == '\n')
 			break ;
 		value = get_next_line(0);
-		if (!value || value[0] == '\0')
+		if (!value)
 		{
 			free(key);
 			break ;
@@ -71,7 +70,6 @@ void	fill_hashmap(t_hash *hashmap)
 			free(value);
 			break ;
 		}
-		return ;
 	}
 }
 
@@ -83,16 +81,18 @@ void	read_hashmap(t_hash *hashmap)
 	while (1)
 	{
 		key = get_next_line(0);
-		if (!key || key[0] == '\0')
+		if (!key)
 			break ;
+		if (key[0] == '\n')
+		{
+			free(key);
+			continue ;
+		}
 		value = get(hashmap, key);
-		if (!value || value[0] == '\0')
+		if (!value)
 			printf("%s: Not found.\n", key);
 		else
-		{
 			printf("%s\n", value);
-			free(value);
-		}
 		free(key);
 	}
 }
