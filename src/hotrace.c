@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:48:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:55:16 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/02/28 20:23:45 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ bool	insert(t_hash *hashmap, char *key, char *value)
 	if (!hashmap || !key)
 		return (-1);
 	index = hash(key) % (hashmap->data_size);
+	add_to_garbage(hashmap->garbage, key);
 	looped = 0;
 	while (1)
 	{
@@ -52,11 +53,7 @@ bool	insert(t_hash *hashmap, char *key, char *value)
 			looped = 1;
 		}
 	}
-	if (hashmap->data[index].key != NULL)
-		free(key);
-	else
-		hashmap->data[index].key = key;
-	add_to_garbage(hashmap->garbage, key);
+	hashmap->data[index].key = key;
 	if (hashmap->data[index].value == NULL)
 		hashmap->n_elements++;
 	hashmap->data[index].value = value;
