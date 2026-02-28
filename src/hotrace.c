@@ -6,21 +6,13 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:48:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 14:12:36 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/02/28 15:17:03 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 #include <stdlib.h>
 #include <string.h> // strdup
-
-// -1 == error
-size_t	hash(const char *str)
-{
-	if (!str)
-		return (-1);
-	return (str[0]);
-}
 
 int	insert(t_hash *hashmap, const char *key, const char *value)
 {

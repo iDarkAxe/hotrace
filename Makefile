@@ -39,6 +39,8 @@ INC = \
 SRC = \
 	main.c \
 	hotrace.c \
+	hash.c \
+	hash_strategy.c \
 	get_next_line.c \
 	ft_strjoin.c \
 	ft_strchr.c \

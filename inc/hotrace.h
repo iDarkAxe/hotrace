@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:47:28 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 14:06:07 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/02/28 16:31:16 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,15 @@ size_t					hash(const char *str);
 int						insert(t_hash *hashmap, const char *key,
 							const char *value);
 char					*get(t_hash *hashmap, const char *key);
+
+enum					e_hash_strategy
+{
+	FNV1,
+	FNV1A,
+	FNV0,
+	END_VAL = -1
+};
+
+size_t					hash(const char *str);
+void					change_hash_strategy(enum e_hash_strategy value);
+enum e_hash_strategy	find_hash_strategy(void);
