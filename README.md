@@ -26,7 +26,6 @@ Use only the following `C functions` :
 
 ## <a name="arch-en">🔧 Architecture ##
 
-
 ## <a name="use-en">🚀 How to use ##
 
 ```sh

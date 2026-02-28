@@ -1,3 +1,6 @@
 a.out
 *.out
 .obj/
+.vscode
+.idea
+hotrace

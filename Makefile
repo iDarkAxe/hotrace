@@ -33,12 +33,17 @@ P_INC = inc/
 # Headers
 INC = \
 	hotrace.h \
+	get_next_line.h \
 
 # Source files
 SRC = \
 	main.c \
 	hotrace.c \
-
+	get_next_line.c \
+	ft_strjoin.c \
+	ft_strchr.c \
+	ft_strlcpy.c \
+	ft_strlen.c \
 
 LIBS = \
 
