@@ -6,14 +6,14 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:47:28 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 14:59:17 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 15:49:27 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage.h"
 #include <stdbool.h>
 
-#define NO_PRINT 1
+#define NO_PRINT 0
 
 typedef struct s_hash	t_hash;
 typedef struct s_elem	t_elem;
@@ -29,6 +29,7 @@ struct					s_hash
 
 struct					s_elem
 {
+	size_t				hash_value;
 	char				*key;
 	char				*value;
 };

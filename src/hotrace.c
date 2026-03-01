@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:48:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 14:59:06 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 17:55:27 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ bool	insert(t_hash *hashmap, char *key, char *value)
 	size_t	index;
 	t_ret	ret;
 	size_t	value_len;
+	size_t	hash_value;
 
 	if (!hashmap || !key || add_to_garbage(hashmap->garbage, key))
 		return (0);
-	ret = find_suitable_index(hashmap, hash(key) % (hashmap->data_size), key);
+	hash_value = hash(key);
+	ret = find_suitable_index(hashmap, hash_value % (hashmap->data_size), key);
 	if (!ret.success)
 		return (0);
 	index = ret.index;
@@ -37,18 +39,21 @@ bool	insert(t_hash *hashmap, char *key, char *value)
 	hashmap->data[index].value = value;
 	if (add_to_garbage(hashmap->garbage, value) == 1)
 		return (0);
+	hashmap->data[index].hash_value = hash_value;
 	return (1);
 }
 
-t_ret	find_suitable_index(t_hash *hashmap, size_t index, char *key)
+t_ret	find_suitable_index(t_hash *hashmap, size_t hash_value, char *key)
 {
 	bool	looped;
+	size_t	index;
 
+	index = hash_value % (hashmap->data_size);
 	looped = 0;
 	while (1)
 	{
-		if (hashmap->data[index].key != NULL && ft_strcmp(key,
-				hashmap->data[index].key) != 0)
+		if (hashmap->data[index].key != NULL && hashmap->data[index].hash_value
+			== hash_value && ft_strcmp(key, hashmap->data[index].key) != 0)
 			index++;
 		else
 			return ((t_ret){.success = true, .index = index});
@@ -65,14 +70,17 @@ t_ret	find_suitable_index(t_hash *hashmap, size_t index, char *key)
 char	*get(t_hash *hashmap, char *key)
 {
 	size_t	index;
+	size_t	hash_value;
 	t_ret	ret;
 
 	if (!hashmap || !key)
 		return (NULL);
-	index = hash(key) % hashmap->data_size;
+	hash_value = hash(key);
+	index = hash_value % hashmap->data_size;
 	if (hashmap->data[index].key == NULL)
 		return (NULL);
-	else if (ft_strcmp(key, hashmap->data[index].key) == 0)
+	else if (hashmap->data[index].hash_value == hash_value
+		|| ft_strcmp(key, hashmap->data[index].key) == 0)
 		return (hashmap->data[index].value);
 	else
 	{

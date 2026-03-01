@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:19:29 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 14:52:46 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 17:56:49 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 128
 # endif
 
 char		*get_next_line(int fd);

@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 15:16:45 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 13:14:07 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 15:31:59 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ size_t	hash(char *str)
 {
 	if (!str)
 		return (-1);
-	return (hash_fnv1(str));
+	return (hash_fnv1a(str));
 }
 
 #else

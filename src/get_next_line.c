@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:12:58 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:53:06 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 17:50:01 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*ft_make_line(char *buffer, char *backup)
 		free(buffer);
 		return (NULL);
 	}
-	ft_strlcpy(line, buffer, index + 2);
+	ft_memcpy(line, buffer, index + 1);
 	if (buffer[index] == '\n')
 		line[index + 1] = '\0';
 	if (buffer[index] != '\0')

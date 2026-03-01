@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:47:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 14:58:53 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 17:51:01 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	free_element_gb(t_garbage *garbage, void *ptr)
  * @brief Print the garbage collector
  *
  */
-void	print_garbage(t_garbage *garbage)
-{
-	t_elem_gb	*element;
+// void	print_garbage(t_garbage *garbage)
+// {
+// 	t_elem_gb	*element;
 
-	element = garbage->head;
-	while (element != NULL)
-	{
-		printf("Element %p has ptr : %p\n", (void *)element, element->ptr);
-		element = element->next;
-	}
-}
+// 	element = garbage->head;
+// 	while (element != NULL)
+// 	{
+// 		printf("Element %p has ptr : %p\n", (void *)element, element->ptr);
+// 		element = element->next;
+// 	}
+// }

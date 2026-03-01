@@ -6,13 +6,14 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 14:54:37 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 14:57:49 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 15:02:56 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 #include <unistd.h>
 #include "get_next_line.h"
+#include "hotrace.h"
 
 void	ft_printf_err(int error)
 {
@@ -21,8 +22,6 @@ void	ft_printf_err(int error)
 	err = strerror(error);
 	write(2, err, ft_strlen(err));
 }
-
-void		print_value(char *key, char *value);
 
 #if NO_PRINT == 0
 
