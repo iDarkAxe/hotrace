@@ -1,11 +1,13 @@
 .PHONY : all clean fclean re bonus clean-lib clean-bin clean-obj debug debug-CC debug-print test doc
 CC := cc
-CCFLAGS = -Wall -Wextra -Werror -Ofast -pg -g3
+CCFLAGS = -Wall -Wextra -Werror -Ofast -Wno-error=unused-result -Wno-unused-result
 DEPENDANCIES = -MMD -MP
 NO_DIR = --no-print-directory
 MAKE := $(MAKE) -j $(NO_DIR)
 NAME = hotrace
 
+# Benchmark flags
+CCFLAGS_BENCH = -Wall -Wextra -Werror -Ofast -pg -g3 -Wno-error=unused-result -Wno-unused-result
 # Debugging flags
 CCFLAGS_DEBUG = -Wall -Wextra -g3
 CC_DEBUG = clang
@@ -41,9 +43,11 @@ SRC = \
 	hotrace.c \
 	hash.c \
 	hash_strategy.c \
+	ft_print.c \
 	get_next_line.c \
 	ft_strjoin.c \
 	ft_strchr.c \
+	ft_strcmp.c \
 	ft_strlcpy.c \
 	ft_strlen.c \
 	ft_memset.c \
@@ -107,6 +111,9 @@ $(P_OBJ)%.o: $(P_SRC)%.c $(INCS)
 		$(if $(DEBUG), echo "  Failed command: $(COMPILE_CMD)";) \
 	fi
 
+bench:
+	@$(MAKE) $(NAME) CCFLAGS="$(CCFLAGS_BENCH)"
+
 #############################################################################################
 #                                                                                           #
 #                                      Other RULES                                          #
@@ -133,46 +140,6 @@ fclean:
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all
-
-CLIENTS ?= 1000
-LEAKS ?= 0
-STRESS ?= 0
-LOG ?= 0
-BEH ?= 0
-#PORT?=6667
-
-test:
-ifeq ($(LEAKS),1)
-	$(MAKE) fclean
-	@$(MAKE) $(NAME) CCFLAGS="$(CCFLAGS_DEBUG) -D USE_TESTER=1"
-else
-	@$(MAKE) $(NAME)
-endif
-	./tests/run.sh $(CLIENTS) $(LEAKS) $(STRESS) $(LOG) $(BEH)
-
-doc: 
-	$(MAKE) doc-clean
-	cd tests/irc_tester && cargo doc --no-deps --target-dir ../../docs/irc_tester
-	cd bonus/bot && cargo doc --no-deps --target-dir ../../docs/bot
-
-doc-full:
-	$(MAKE) doc-clean
-	cd tests/irc_tester && cargo doc --target-dir ../../docs/irc_tester
-	cd bonus/bot && cargo doc --target-dir ../../docs/bot
-
-doc-clean:
-	rm -rf docs/irc_tester
-	rm -rf docs/bot
-
-bonus: 
-	./bonus/run_bot.sh
-
-# Aliases
-clear: clean
-fclear: fclean
-fclena: fclean
-flcean: fclean
-flcear: fclean
 
 #############################################################################################
 #                                                                                           #
@@ -238,6 +205,4 @@ On_Purple=\033[45m
 On_Cyan=\033[46m
 On_White=\033[47m
 
--include $(DEPS)% 
-
-.PHONY: all clean clean-lib clean-bin clean-obj fclean re test debug debug-print-project debug-print debug-print-separator debug-CC 
+-include $(DEPS)%
