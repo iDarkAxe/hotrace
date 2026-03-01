@@ -1,13 +1,13 @@
 .PHONY : all clean fclean re bonus clean-lib clean-bin clean-obj debug debug-CC debug-print test doc
 CC := cc
-CCFLAGS = -Wall -Wextra -Werror -Ofast -Wno-error=unused-result -Wno-unused-result
+CCFLAGS = -Wall -Wextra -Werror -Wno-error=unused-result -Wno-unused-result -O3 -march=native -flto -funroll-loops -fomit-frame-pointer
 DEPENDANCIES = -MMD -MP
 NO_DIR = --no-print-directory
 MAKE := $(MAKE) -j $(NO_DIR)
 NAME = hotrace
 
 # Benchmark flags
-CCFLAGS_BENCH = -Wall -Wextra -Werror -Ofast -pg -g3 -Wno-error=unused-result -Wno-unused-result
+CCFLAGS_BENCH = -Wall -Wextra -Werror -O3 -march=native -flto -funroll-loops -pg -g3 -Wno-error=unused-result -Wno-unused-result
 # Debugging flags
 CCFLAGS_DEBUG = -Wall -Wextra -g3
 CC_DEBUG = clang
