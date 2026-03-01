@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:08:24 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:25:17 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 14:58:53 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
  * 'next' is set to NULL
  *
  * @param ptr pointer to add in the element
- * @return t_element_gb* pointer to the element
+ * @return t_elem_gb* pointer to the element
  */
-t_element_gb	*ft_garbagenew(void *ptr)
+t_elem_gb	*ft_garbagenew(void *ptr)
 {
-	t_element_gb	*element;
+	t_elem_gb	*element;
 
-	element = malloc(sizeof(t_element_gb));
+	element = malloc(sizeof(t_elem_gb));
 	if (element == NULL)
 		return (NULL);
 	element->ptr = ptr;
@@ -38,7 +38,7 @@ t_element_gb	*ft_garbagenew(void *ptr)
  * @param garbage garbage structure
  * @param new element to add
  */
-void	ft_garbageadd_front(t_garbage *garbage, t_element_gb *new)
+void	ft_garbageadd_front(t_garbage *garbage, t_elem_gb *new)
 {
 	if (new == NULL)
 		return ;
@@ -54,8 +54,8 @@ void	ft_garbageadd_front(t_garbage *garbage, t_element_gb *new)
  */
 int	ft_garbageclear(t_garbage *garbage)
 {
-	t_element_gb	*element;
-	t_element_gb	*temp;
+	t_elem_gb	*element;
+	t_elem_gb	*temp;
 
 	if (!garbage)
 		return (-1);

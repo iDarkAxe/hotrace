@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:19:29 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:53:58 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 14:52:46 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ const char	*ft_strchr(const char *string, int searched_char);
 size_t		ft_strlen(const char *the_string);
 void		*ft_memcpy(void *destination, const void *source, size_t size);
 void		*ft_memset(void *pointer, int value, size_t count);
+int			ft_strcmp(const char *first, const char *second);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 15:16:45 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 16:40:15 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 13:14:07 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 #define USE_GLOBAL 0
 
-size_t			hash_fnv1(const char *str);
-size_t			hash_fnv1a(const char *str);
-size_t			hash_fnv0(const char *str);
+size_t			hash_fnv1(char *str);
+size_t			hash_fnv1a(char *str);
+size_t			hash_fnv0(char *str);
 
 // -1 == error
 #if USE_GLOBAL == 0
 
-size_t	hash(const char *str)
+size_t	hash(char *str)
 {
 	if (!str)
 		return (-1);

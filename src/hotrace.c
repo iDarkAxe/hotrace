@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:48:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 20:23:45 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 14:59:06 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,35 @@
 #include "hotrace.h"
 #include <stdbool.h>
 #include <stdlib.h>
-#include <string.h> // strdup
-
-int	ft_strcmp(const char *first, const char *second)
-{
-	size_t	index;
-
-	index = 0;
-	while (first[index] != '\0' && second[index] != '\0'
-		&& first[index] == second[index])
-		index++;
-	return ((unsigned char)first[index] - (unsigned char)second[index]);
-}
 
 bool	insert(t_hash *hashmap, char *key, char *value)
 {
-	bool	looped;
 	size_t	index;
+	t_ret	ret;
+	size_t	value_len;
 
-	if (!hashmap || !key)
-		return (-1);
-	index = hash(key) % (hashmap->data_size);
-	add_to_garbage(hashmap->garbage, key);
+	if (!hashmap || !key || add_to_garbage(hashmap->garbage, key))
+		return (0);
+	ret = find_suitable_index(hashmap, hash(key) % (hashmap->data_size), key);
+	if (!ret.success)
+		return (0);
+	index = ret.index;
+	hashmap->data[index].key = key;
+	if (hashmap->data[index].value == NULL)
+		hashmap->n_elements++;
+	value_len = ft_strlen(value);
+	if (value_len > 0 && value[value_len - 1] == '\n')
+		value[value_len - 1] = '\0';
+	hashmap->data[index].value = value;
+	if (add_to_garbage(hashmap->garbage, value) == 1)
+		return (0);
+	return (1);
+}
+
+t_ret	find_suitable_index(t_hash *hashmap, size_t index, char *key)
+{
+	bool	looped;
+
 	looped = 0;
 	while (1)
 	{
@@ -44,27 +51,21 @@ bool	insert(t_hash *hashmap, char *key, char *value)
 				hashmap->data[index].key) != 0)
 			index++;
 		else
-			break ;
+			return ((t_ret){.success = true, .index = index});
 		if (index > hashmap->data_size)
 		{
 			if (looped == 1)
-				return (0);
+				return ((t_ret){.success = false, .index = -1});
 			index = 0;
 			looped = 1;
 		}
 	}
-	hashmap->data[index].key = key;
-	if (hashmap->data[index].value == NULL)
-		hashmap->n_elements++;
-	hashmap->data[index].value = value;
-	add_to_garbage(hashmap->garbage, value);
-	return (1);
 }
 
-char	*get(t_hash *hashmap, const char *key)
+char	*get(t_hash *hashmap, char *key)
 {
 	size_t	index;
-	bool	looped;
+	t_ret	ret;
 
 	if (!hashmap || !key)
 		return (NULL);
@@ -75,22 +76,11 @@ char	*get(t_hash *hashmap, const char *key)
 		return (hashmap->data[index].value);
 	else
 	{
-		looped = 0;
-		while (1)
-		{
-			if (hashmap->data[index].key != NULL && ft_strcmp(key,
-					hashmap->data[index].key) != 0)
-				index++;
-			else
-				return (hashmap->data[index].value);
-			if (index > hashmap->data_size)
-			{
-				if (looped == 1)
-					return (NULL);
-				index = 0;
-				looped = 1;
-			}
-		}
+		ret = find_suitable_index(hashmap, index, key);
+		if (!ret.success)
+			return (NULL);
+		else
+			return (hashmap->data[ret.index].value);
 	}
 }
 
@@ -102,14 +92,14 @@ t_hash	*create_hashmap(t_hash *hashmap)
 		return (NULL);
 	hashmap->data_size = HASHMAP_SIZE;
 	hashmap->n_elements = 0;
-	hashmap->data = malloc(sizeof(t_element) * hashmap->data_size);
+	hashmap->data = malloc(sizeof(t_elem) * hashmap->data_size);
 	if (!hashmap->data)
 		return (NULL);
 	hashmap->garbage = malloc(sizeof(t_garbage));
 	if (!hashmap->garbage)
 		return (NULL);
 	garbage_init(hashmap->garbage);
-	ft_memset(hashmap->data, 0, sizeof(t_element) * hashmap->data_size);
+	ft_memset(hashmap->data, 0, sizeof(t_elem) * hashmap->data_size);
 	return (hashmap);
 }
 

@@ -1,6 +1,6 @@
 .PHONY : all clean fclean re bonus clean-lib clean-bin clean-obj debug debug-CC debug-print test doc
 CC := cc
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -Ofast -pg -g3
 DEPENDANCIES = -MMD -MP
 NO_DIR = --no-print-directory
 MAKE := $(MAKE) -j $(NO_DIR)
@@ -116,7 +116,6 @@ $(P_OBJ)%.o: $(P_SRC)%.c $(INCS)
 clean:
 	rm -rfd $(P_OBJ)
 	rm -rfd $(P_DEPS)
-	rm -rf .server_output.log
 
 clean-lib:
 	rm -rfd $(P_LIB)

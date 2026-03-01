@@ -6,17 +6,17 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:09:50 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:54:55 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 14:59:09 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GARBAGE_H
 # define GARBAGE_H
 
-# include <stdlib.h>
 # include <stdbool.h>
+# include <stdlib.h>
 
-typedef struct s_element_gb	t_element_gb;
+typedef struct s_element_gb	t_elem_gb;
 typedef struct s_garbage	t_garbage;
 
 /**
@@ -36,7 +36,7 @@ struct						s_element_gb
 struct						s_garbage
 {
 	size_t					n_elements;
-	t_element_gb			*head;
+	t_elem_gb				*head;
 };
 
 /**
@@ -57,9 +57,9 @@ void						free_garbage(t_garbage *garbage);
 void						print_garbage(t_garbage *garbage);
 
 // Garbage stack management
-t_element_gb				*ft_garbagenew(void *ptr);
+t_elem_gb					*ft_garbagenew(void *ptr);
 void						ft_garbageadd_front(t_garbage *garbage,
-								t_element_gb *new);
+								t_elem_gb *new);
 int							ft_garbageclear(t_garbage *data);
 /** @} */
 #endif

@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 16:30:38 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 16:38:38 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 13:14:42 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 // ref: wikipedia Fowler–Noll–Vo hash function
 
-size_t	hash_fnv1(const char *str)
+size_t	hash_fnv1(char *str)
 {
 	uint64_t	hash_ret;
 	size_t		index;
@@ -33,11 +33,13 @@ size_t	hash_fnv1(const char *str)
 		hash_ret ^= str[index];
 		index++;
 	}
+	if (index >= 1 && str[index - 1] == '\n')
+		str[index - 1] = '\0';
 	return (hash_ret);
 }
 
 // Should have 'better' avalanche characteristics
-size_t	hash_fnv1a(const char *str)
+size_t	hash_fnv1a(char *str)
 {
 	uint64_t	hash_ret;
 	size_t		index;
@@ -52,10 +54,12 @@ size_t	hash_fnv1a(const char *str)
 		hash_ret *= FNV_PRIME;
 		index++;
 	}
+	if (index >= 1 && str[index - 1] == '\n')
+		str[index - 1] = '\0';
 	return (hash_ret);
 }
 
-size_t	hash_fnv0(const char *str)
+size_t	hash_fnv0(char *str)
 {
 	uint64_t	hash_ret;
 	size_t		index;
@@ -70,5 +74,7 @@ size_t	hash_fnv0(const char *str)
 		hash_ret ^= str[index];
 		index++;
 	}
+	if (index >= 1 && str[index - 1] == '\n')
+		str[index - 1] = '\0';
 	return (hash_ret);
 }

@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:47:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:25:19 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 14:58:53 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
  */
 void	free_element_gb(t_garbage *garbage, void *ptr)
 {
-	t_element_gb	*element;
-	t_element_gb	*previous;
+	t_elem_gb	*element;
+	t_elem_gb	*previous;
 
 	if (!garbage)
 		return ;
@@ -56,7 +56,7 @@ void	free_element_gb(t_garbage *garbage, void *ptr)
  */
 void	print_garbage(t_garbage *garbage)
 {
-	t_element_gb	*element;
+	t_elem_gb	*element;
 
 	element = garbage->head;
 	while (element != NULL)

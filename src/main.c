@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:49:07 by ppontet           #+#    #+#             */
-/*   Updated: 2026/02/28 18:55:55 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/01 14:53:41 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 #include <string.h>
 #include <unistd.h>
 
-void	ft_printf_err(int error);
-void	read_hashmap(t_hash *hashmap);
-void	fill_hashmap(t_hash *hashmap);
+void		ft_printf_err(int error);
+void		read_hashmap(t_hash *hashmap);
+void		fill_hashmap(t_hash *hashmap);
 
 /**
  * @brief Executer Hotrace
@@ -39,12 +39,17 @@ int	main(void)
 	return (0);
 }
 
-void	ft_printf_err(int error)
+bool	try_insert(t_hash *hashmap, char *key, char *value)
 {
-	char	*err;
-
-	err = strerror(error);
-	write(2, err, ft_strlen(err));
+	if (insert(hashmap, key, value))
+		return (true);
+	else
+	{
+		ft_printf_err(errno);
+		free(key);
+		free(value);
+		return (false);
+	}
 }
 
 void	fill_hashmap(t_hash *hashmap)
@@ -55,21 +60,21 @@ void	fill_hashmap(t_hash *hashmap)
 	while (1)
 	{
 		key = get_next_line(0);
-		if (!key || key[0] == '\n')
+		if (!key)
 			break ;
+		if (key[0] == '\n' || (key[0] == '\r' && key[1] == '\n'))
+		{
+			free(key);
+			break ;
+		}
 		value = get_next_line(0);
 		if (!value)
 		{
 			free(key);
 			break ;
 		}
-		if (insert(hashmap, key, value) == 0)
-		{
-			ft_printf_err(errno);
-			free(key);
-			free(value);
+		if (try_insert(hashmap, key, value) == false)
 			break ;
-		}
 	}
 }
 
@@ -89,10 +94,7 @@ void	read_hashmap(t_hash *hashmap)
 			continue ;
 		}
 		value = get(hashmap, key);
-		if (!value)
-			printf("%s: Not found.\n", key);
-		else
-			printf("%s\n", value);
+		print_value(key, value);
 		free(key);
 	}
 }
