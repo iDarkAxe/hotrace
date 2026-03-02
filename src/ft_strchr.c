@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 13:15:41 by ppontet           #+#    #+#             */
-/*   Updated: 2025/03/21 13:12:41 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/02 09:53:17 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ const char	*ft_strchr(const char *string, int searched_char)
 	unsigned long int	i;
 
 	i = 0;
-	while (searched_char > 256)
-		searched_char = searched_char - 256;
+	if (string == NULL)
+		return (NULL);
 	while (string[i] != '\0')
 	{
 		if (string[i] == (char)searched_char)

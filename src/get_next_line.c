@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:12:58 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 17:50:01 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/02 10:02:37 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 static char	*ft_filler(int fd, char *backup, char *buffer);
-static char	*ft_make_line(char *buffer, char *backup);
+static char	*ft_make_line(char *buffer, char *backup, const char *newline_pos);
 
 /**
  * @brief Main function :
@@ -81,8 +81,9 @@ char	*ft_filler(int fd, char *backup, char *buffer)
 		free(buffer);
 		buffer = tmp;
 		backup[0] = '\0';
-		if (buffer && ft_strchr(buffer, '\n'))
-			return (ft_make_line(buffer, backup));
+		tmp = (char *)ft_strchr(buffer, '\n');
+		if (buffer && tmp)
+			return (ft_make_line(buffer, backup, tmp));
 	}
 	return (buffer);
 }
@@ -95,16 +96,14 @@ char	*ft_filler(int fd, char *backup, char *buffer)
  * @param backup Rest of the buffer
  * @return char* Array containing the new line
  */
-char	*ft_make_line(char *buffer, char *backup)
+char	*ft_make_line(char *buffer, char *backup, const char *newline_pos)
 {
 	size_t	index;
 	char	*line;
 
-	if (!buffer || buffer[0] == '\0')
+	if (!buffer || buffer[0] == '\0' || !newline_pos || newline_pos < buffer)
 		return (NULL);
-	index = 0;
-	while (buffer[index] != '\0' && buffer[index] != '\n')
-		index++;
+	index = newline_pos - buffer;
 	line = malloc(sizeof(char) * (index + 2));
 	if (!line)
 	{
