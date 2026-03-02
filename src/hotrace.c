@@ -6,16 +6,64 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:48:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 17:55:27 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/02 22:11:44 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage.h"
 #include "get_next_line.h"
 #include "hotrace.h"
-#include <stdbool.h>
-#include <stdlib.h>
 
+/**
+ * @brief Create a hashmap object
+ * 
+ * @param[in,out] hashmap hashmap
+ * @return t_hash* hashmap if the initialisation is successful, NULL otherwise
+ */
+t_hash	*create_hashmap(t_hash *hashmap)
+{
+	if (!hashmap)
+		return (NULL);
+	hashmap->data_size = HASHMAP_SIZE;
+	hashmap->n_elements = 0;
+	hashmap->data = malloc(sizeof(t_elem) * hashmap->data_size);
+	if (!hashmap->data)
+		return (NULL);
+	hashmap->garbage = malloc(sizeof(t_garbage));
+	if (!hashmap->garbage)
+		return (NULL);
+	garbage_init(hashmap->garbage);
+	ft_memset(hashmap->data, 0, sizeof(t_elem) * hashmap->data_size);
+	return (hashmap);
+}
+
+/**
+ * @brief Free the memory allocated for the hashmap, 
+ * including the data and the garbage collector.
+ * 
+ * @param[in,out] hashmap hashmap
+ */
+void	free_hashmap(t_hash *hashmap)
+{
+	if (!hashmap)
+		return ;
+	if (hashmap->data)
+		free(hashmap->data);
+	free_garbage(hashmap->garbage);
+	free(hashmap->garbage);
+}
+
+/**
+ * @brief Insert a key-value pair into the hashmap. 
+ * If the key already exists, update (replace) its value.
+ * Return true if the insertion is successful, false otherwise.
+ * 
+ * @param[in,out] hashmap hashmap
+ * @param[in,out] key key to find
+ * @param[in,out] value value to associate with the key
+ * @return true if the insertion is successful,
+ * @return false if the insertion fails (e.g., memory allocation failure)
+ */
 bool	insert(t_hash *hashmap, char *key, char *value)
 {
 	size_t	index;
@@ -43,30 +91,13 @@ bool	insert(t_hash *hashmap, char *key, char *value)
 	return (1);
 }
 
-t_ret	find_suitable_index(t_hash *hashmap, size_t hash_value, char *key)
-{
-	bool	looped;
-	size_t	index;
-
-	index = hash_value % (hashmap->data_size);
-	looped = 0;
-	while (1)
-	{
-		if (hashmap->data[index].key != NULL && hashmap->data[index].hash_value
-			== hash_value && ft_strcmp(key, hashmap->data[index].key) != 0)
-			index++;
-		else
-			return ((t_ret){.success = true, .index = index});
-		if (index > hashmap->data_size)
-		{
-			if (looped == 1)
-				return ((t_ret){.success = false, .index = -1});
-			index = 0;
-			looped = 1;
-		}
-	}
-}
-
+/**
+ * @brief Find the value associated with a key in the hashmap.
+ * 
+ * @param[in,out] hashmap hashmap
+ * @param[in,out] key key to find
+ * @return char* value associated with the key, or NULL if the key is not found
+ */
 char	*get(t_hash *hashmap, char *key)
 {
 	size_t	index;
@@ -92,31 +123,39 @@ char	*get(t_hash *hashmap, char *key)
 	}
 }
 
-#define HASHMAP_SIZE 1000000
-
-t_hash	*create_hashmap(t_hash *hashmap)
+/**
+ * @brief Find the suitable index for a key in the hashmap, using linear probing
+ * If the key is already in the hashmap, return its index. 
+ * If the key is not in the hashmap, 
+ * return the index where it should be inserted. 
+ * If the hashmap is full, return -1. 
+ * It will happen only if the hashmap is completely full
+ * 
+ * @param[in,out] hashmap hashmap
+ * @param[in] hash_value hash value of the key
+ * @param[in,out] key key to find
+ * @return t_ret structure containing the index and the success status
+ */
+t_ret	find_suitable_index(t_hash *hashmap, size_t hash_value, char *key)
 {
-	if (!hashmap)
-		return (NULL);
-	hashmap->data_size = HASHMAP_SIZE;
-	hashmap->n_elements = 0;
-	hashmap->data = malloc(sizeof(t_elem) * hashmap->data_size);
-	if (!hashmap->data)
-		return (NULL);
-	hashmap->garbage = malloc(sizeof(t_garbage));
-	if (!hashmap->garbage)
-		return (NULL);
-	garbage_init(hashmap->garbage);
-	ft_memset(hashmap->data, 0, sizeof(t_elem) * hashmap->data_size);
-	return (hashmap);
-}
+	bool	looped;
+	size_t	index;
 
-void	free_hashmap(t_hash *hashmap)
-{
-	if (!hashmap)
-		return ;
-	if (hashmap->data)
-		free(hashmap->data);
-	free_garbage(hashmap->garbage);
-	free(hashmap->garbage);
+	index = hash_value % (hashmap->data_size);
+	looped = 0;
+	while (1)
+	{
+		if (hashmap->data[index].key != NULL && hashmap->data[index].hash_value
+			== hash_value && ft_strcmp(key, hashmap->data[index].key) != 0)
+			index++;
+		else
+			return ((t_ret){.success = true, .index = index});
+		if (index > hashmap->data_size)
+		{
+			if (looped == 1)
+				return ((t_ret){.success = false, .index = -1});
+			index = 0;
+			looped = 1;
+		}
+	}
 }

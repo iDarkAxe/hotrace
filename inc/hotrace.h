@@ -6,7 +6,7 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:47:28 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 15:49:27 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/02 22:14:21 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdbool.h>
 
 #define NO_PRINT 0
+#define HASHMAP_SIZE 1000000
 
 typedef struct s_hash	t_hash;
 typedef struct s_elem	t_elem;
@@ -40,14 +41,6 @@ struct					s_ret
 	bool				success;
 };
 
-t_ret					find_suitable_index(t_hash *hashmap, size_t index,
-							char *key);
-
-t_hash					*create_hashmap(t_hash *hashmap);
-void					free_hashmap(t_hash *hashmap);
-bool					insert(t_hash *hashmap, char *key, char *value);
-char					*get(t_hash *hashmap, char *key);
-
 enum					e_hash_strat
 {
 	FNV1,
@@ -56,6 +49,14 @@ enum					e_hash_strat
 	END_VAL = -1
 };
 
+t_hash					*create_hashmap(t_hash *hashmap);
+void					free_hashmap(t_hash *hashmap);
+bool					insert(t_hash *hashmap, char *key, char *value);
+char					*get(t_hash *hashmap, char *key);
+t_ret					find_suitable_index(t_hash *hashmap, size_t index,
+							char *key);
+
+// Hashing
 size_t					hash(char *str);
 void					change_hash_strat(enum e_hash_strat value);
 enum e_hash_strat		find_hash_strategy(void);

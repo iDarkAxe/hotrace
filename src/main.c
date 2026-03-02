@@ -6,17 +6,13 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:49:07 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 14:53:41 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/02 22:16:20 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "hotrace.h"
 #include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 void		ft_printf_err(int error);
 void		read_hashmap(t_hash *hashmap);

@@ -6,14 +6,11 @@
 /*   By: ppontet <ppontet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 13:47:08 by ppontet           #+#    #+#             */
-/*   Updated: 2026/03/01 17:51:01 by ppontet          ###   ########lyon.fr   */
+/*   Updated: 2026/03/02 22:16:58 by ppontet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage.h"
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 /**
  * @brief Free an element in the garbage collector
